@@ -1,13 +1,21 @@
-
 import java.util.*;
+import java.util.Collections;
 
 public class OperationWithNotebook {
 
-    private Set<Notebook> notebooks = new HashSet<>();
+    private Set<Notebook> notebooks = new TreeSet<>();
     private List<Criterion> criterionList = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
     public void printList(){
+        for (Notebook notebook : notebooks){
+            if (notebookIsCorrect(notebook)){
+                System.out.println(notebook);
+            }
+        }
+    }
+
+    public void printSortedList(){
         for (Notebook notebook : notebooks){
             if (notebookIsCorrect(notebook)){
                 System.out.println(notebook);
@@ -30,6 +38,8 @@ public class OperationWithNotebook {
                 valueNotebook = notebook.getPrice();
             }else if (criterion.property.equals("model")){
                 valueNotebook = notebook.getModel();
+            }else if (criterion.property.equals("color")){
+                valueNotebook = notebook.getColor();
             }else {
                 continue;
             }
@@ -93,6 +103,7 @@ public class OperationWithNotebook {
         map.put("operatingSystem", "Операционная система");
         map.put("price", "цена");
         map.put("model", "модель");
+        map.put("color", "цвет");
 
         return map;
 
@@ -105,6 +116,7 @@ public class OperationWithNotebook {
         list.add("operatingSystem");
         list.add("price");
         list.add("model");
+        list.add("color");
 
         return list;
     }
@@ -114,7 +126,8 @@ public class OperationWithNotebook {
         String text = "Выберите опрерацию: \n " +
                 "1. Добавить критерий \n " +
                 "2. Вывести список \n " +
-                "3. Завершить";
+                "3. Вывести сортированный список\n " +
+                "4. Завершить";
 
         System.out.println(text);
 
@@ -137,6 +150,7 @@ public class OperationWithNotebook {
         set.add("name");
         set.add("operatingSystem");
         set.add("model");
+        set.add("color");
 
         return set;
     }
@@ -147,7 +161,7 @@ public class OperationWithNotebook {
         while (flag){
 
             String operation = getOperations();
-            if (operation.equals("3")){
+            if (operation.equals("4")){
                 flag = false;
                 scanner.close();
                 continue;
@@ -179,8 +193,12 @@ public class OperationWithNotebook {
             else if (operation.equals("2")){
                 printList();
             }
+            else if (operation.equals("3")){
+
+                printSortedList();
         }
     }
+}
 }
 
 
@@ -242,6 +260,4 @@ class Criterion {
         String getValue = scanner.next();
         return new Criterion(property, isQuantitative, getValue, null, null);
 }
-
 }
-
